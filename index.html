@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radha Name Counter - Dark Mode</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a1cb0;
+            --secondary: #ffcc00;
+            --dark-bg: #0f0b1f;
+            --dark-card: #1a1629;
+            --dark-text: #f0e6ff;
+            --light-text: #d8c7ff;
+            --border-color: #332a4d;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(255, 204, 0, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 204, 0, 0.3);
+        }
+
+        .subtitle {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                flex-direction: row;
+            }
+        }
+
+        .counter-section, .music-section {
+            background-color: var(--dark-card);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .counter-section {
+            flex: 1;
+        }
+
+        .music-section {
+            flex: 1;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .counter-display {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: rgba(138, 43, 226, 0.1);
+            border-radius: 12px;
+            border: 1px solid var(--primary);
+        }
+
+        .counter-value {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .counter-label {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            margin-top: 10px;
+        }
+
+        .counter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-reset {
+            background-color: transparent;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+        }
+
+        .btn-reset:hover {
+            background-color: rgba(255, 107, 107, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .history-section {
+            margin-top: 25px;
+        }
+
+        .history-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--light-text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-history-btn {
+            background: transparent;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .clear-history-btn:hover {
+            color: #ff5252;
+        }
+
+        .history-list {
+            list-style-type: none;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .history-list::-webkit-scrollbar-track {
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 10px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .history-count {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .history-time {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .history-date {
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+
+        .song-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+            padding-right: 10px;
+        }
+
+        .song-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .song-list::-webkit-scrollbar-track {
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 10px;
+        }
+
+        .song-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .song-item:hover {
+            background-color: rgba(138, 43, 226, 0.15);
+            border-color: var(--primary);
+        }
+
+        .song-item.active {
+            background-color: rgba(138, 43, 226, 0.2);
+            border-color: var(--primary);
+        }
+
+        .song-cover {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            margin-right: 15px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .song-artist {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .song-duration {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .control-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .current-song {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: rgba(138, 43, 226, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .current-song-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .current-song-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 15px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(138, 43, 226, 0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--light-text);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .mobile-notice {
+            display: none;
+            background-color: rgba(255, 204, 0, 0.1);
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            color: var(--secondary);
+        }
+
+        .save-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+        }
+
+        .save-notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .counter-value {
+                font-size: 3.5rem;
+            }
+            
+            .counter-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .mobile-notice {
+                display: block;
+            }
+            
+            .save-notification {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                transform: translateY(-100px);
+            }
+            
+            .save-notification.show {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 15px;
+            }
+            
+            .counter-section, .music-section {
+                padding: 20px;
+            }
+            
+            .music-controls {
+                flex-wrap: wrap;
+            }
+            
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-om"></i> Radha Name Counter</h1>
+            <p class="subtitle">Count your daily recitations of Radha name with a peaceful musical background. Keep track of your spiritual practice.</p>
+        </header>
+        
+        <div class="main-content">
+            <section class="counter-section">
+                <h2 class="section-title"><i class="fas fa-calculator"></i> Jap Counter</h2>
+                
+                <div class="counter-display">
+                    <div class="counter-value" id="counter">0</div>
+                    <div class="counter-label">Radha Name Recitations</div>
+                </div>
+                
+                <div class="counter-controls">
+                    <button class="btn btn-primary" id="incrementBtn">
+                        <i class="fas fa-plus-circle"></i> Add Count
+                    </button>
+                    <button class="btn btn-secondary" id="saveBtn">
+                        <i class="fas fa-save"></i> Save Count
+                    </button>
+                    <button class="btn btn-reset" id="resetBtn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                
+                <div class="history-section">
+                    <h3 class="history-title">
+                        <span><i class="fas fa-history"></i> Saved History</span>
+                        <button class="clear-history-btn" id="clearHistoryBtn">
+                            <i class="fas fa-trash-alt"></i> Clear
+                        </button>
+                    </h3>
+                    <ul class="history-list" id="historyList">
+                        <!-- History items will be added here -->
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="music-section">
+                <h2 class="section-title"><i class="fas fa-music"></i> Music Player</h2>
+                
+                <div class="current-song">
+                    <div class="current-song-info">
+                        <div class="current-song-cover">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <div>
+                            <div class="song-title" id="currentSongTitle">Select a song to play</div>
+                            <div class="song-artist" id="currentSongArtist">-</div>
+                        </div>
+                    </div>
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up"></i>
+                        <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+                    </div>
+                </div>
+                
+                <div class="song-list" id="songList">
+                    <!-- Song list will be populated by JavaScript -->
+                </div>
+                
+                <div class="music-controls">
+                    <button class="control-btn" id="prevBtn" disabled>
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="control-btn" id="playPauseBtn" disabled>
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn" id="stopBtn" disabled>
+                        <i class="fas fa-stop"></i>
+                    </button>
+                    <button class="control-btn" id="nextBtn" disabled>
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+                
+                <div class="mobile-notice">
+                    <i class="fas fa-info-circle"></i> On mobile devices, audio may require user interaction to play. Tap once anywhere on the page to enable audio.
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Radha Name Counter &copy; 2023 | Designed for spiritual practice | All music tracks are for devotional purposes</p>
+        </footer>
+        
+        <div class="save-notification" id="saveNotification">
+            <i class="fas fa-check-circle"></i>
+            <span>Count saved successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        // Counter functionality
+        let counter = 0;
+        let history = [];
+        const counterElement = document.getElementById('counter');
+        const incrementBtn = document.getElementById('incrementBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const historyList = document.getElementById('historyList');
+        const saveNotification = document.getElementById('saveNotification');
+        
+        // Music player functionality
+        const audioPlayer = new Audio();
+        let currentSongIndex = -1;
+        let isPlaying = false;
+        
+        // Song playlist
+        const songs = [
+            {
+                title: "Radhe Radhe Naam Jap",
+                artist: "Traditional",
+                duration: "00:59",
+                source: "radha radha.mp3"
+            },
+            {
+                title: "Ram Siya Ram",
+                artist: "Devotional Chants",
+                duration: "00:40",
+                source: "ram shiya ram.mp3"
+            },
+            {
+                title: "Radha Krishna ki Jyoti Alaukik",
+                artist: "Spiritual Melodies",
+                duration: "00:24",
+                source: "radhe krishna ki jyoti.mp3"
+            },
+            {
+                title: "shree Vishnu Dhyan Mantra",
+                artist: "Meditation Music",
+                duration: "00:30",
+                source: "shree vishnu dhyanam.mp3"
+            },
+            {
+                title: "Yug Ram Raj Ka aa Gya ",
+                artist: "Traditional Kirtan",
+                duration: "00:42",
+                source: "yug ram raj ka.mp3"
+            },
+
+            {
+                title: "Adharam madhuram",
+                artist: "Traditional",
+                duration: "00:14",
+                source: "adharam madhuram.mp3"
+            },
+            {
+                title: "Bhakt nahi Bhala Hai Dhundhta",
+                artist: "Devotional Chants",
+                duration: "05:56",
+                source: "Bhakt nahi Bhala Hai Dhudhta.mp3"
+            },
+            {
+                title: "Jai Ho Jai Ho Sankara",
+                artist: "Spiritual Melodies",
+                duration: "00:29",
+                source: "jai ho jai ho  sankara.mp3"
+            },
+            {
+                title: "Kya Wo Karege Le Ke Chadhawa",
+                artist: "Meditation Music",
+                duration: "00:25",
+                source: "kya wo karega leke chdhawa.mp3"
+            },
+            {
+                title: "Mane Bhi Bulale Baba Thari Re Nagariya",
+                artist: "Traditional Kirtan",
+                duration: "00:29",
+                source: "mane bhi bulale baba.mp3"
+            },
+            {
+                title: "He Muralidhar Chhaliya Mohan",
+                artist: "Traditional Kirtan",
+                duration: "00:30",
+                source: "murlidhar mohan.mp3"
+            },
+            {
+                title: "Om Namah Shivay",
+                artist: "Traditional Kirtan",
+                duration: "01:00",
+                source: "om namah shivay.mp3"
+            }
+        ];
+        
+        // DOM Elements for music player
+        const songListElement = document.getElementById('songList');
+        const currentSongTitle = document.getElementById('currentSongTitle');
+        const currentSongArtist = document.getElementById('currentSongArtist');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        // Initialize the app
+        function initApp() {
+            loadCounterFromStorage();
+            renderSongList();
+            setupEventListeners();
+            
+            // Set up beforeunload event to save when exiting
+            window.addEventListener('beforeunload', saveOnExit);
+            
+            // Enable audio interaction on mobile
+            document.body.addEventListener('touchstart', function() {
+                // This enables audio playback on mobile after user interaction
+                if (audioPlayer.paused) {
+                    audioPlayer.volume = 0;
+                    audioPlayer.play().then(() => {
+                        audioPlayer.pause();
+                        audioPlayer.volume = volumeSlider.value / 100;
+                    }).catch(e => console.log("Audio initialization:", e));
+                }
+            }, {once: true});
+        }
+        
+        // Save when exiting the app
+        function saveOnExit() {
+            // Only save if counter > 0 and not already saved in the last minute
+            if (counter > 0) {
+                const now = new Date();
+                const lastSave = localStorage.getItem('lastAutoSaveTime');
+                const lastSaveTime = lastSave ? parseInt(lastSave) : 0;
+                
+                // Don't auto-save if we already saved in the last minute
+                if (now.getTime() - lastSaveTime > 60000) {
+                    saveCurrentCountToHistory("Auto-saved on exit");
+                    localStorage.setItem('lastAutoSaveTime', now.getTime().toString());
+                }
+            }
+        }
+        
+        // Counter functions
+        function loadCounterFromStorage() {
+            const savedCounter = localStorage.getItem('radhaCounter');
+            const savedHistory = localStorage.getItem('radhaCounterHistory');
+            
+            if (savedCounter) {
+                counter = parseInt(savedCounter);
+                counterElement.textContent = counter;
+            }
+            
+            if (savedHistory) {
+                history = JSON.parse(savedHistory);
+                renderHistory();
+            }
+        }
+        
+        function incrementCounter() {
+            counter++;
+            counterElement.textContent = counter;
+            
+            // Visual feedback
+            counterElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                counterElement.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Save only the counter value (not to history)
+            localStorage.setItem('radhaCounter', counter);
+        }
+        
+        function saveCurrentCountToHistory(reason = "Manually saved") {
+            const now = new Date();
+            const dateString = now.toLocaleDateString();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Create history entry
+            const historyEntry = {
+                count: counter,
+                date: dateString,
+                time: timeString,
+                reason: reason,
+                timestamp: now.getTime()
+            };
+            
+            // Add to history array at the beginning
+            history.unshift(historyEntry);
+            
+            // Keep only last 20 history items
+            if (history.length > 20) {
+                history = history.slice(0, 20);
+            }
+            
+            // Update storage and UI
+            saveToStorage();
+            renderHistory();
+            
+            // Show notification
+            showSaveNotification();
+        }
+        
+        function showSaveNotification() {
+            saveNotification.classList.add('show');
+            setTimeout(() => {
+                saveNotification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function saveCounter() {
+            if (counter === 0) {
+                alert("Please add some counts before saving.");
+                return;
+            }
+            
+            saveCurrentCountToHistory("Manually saved");
+            
+            // Show additional confirmation
+            const now = new Date();
+            const dateString = now.toLocaleDateString();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            console.log(`Count of ${counter} saved successfully at ${timeString} on ${dateString}`);
+        }
+        
+        function resetCounter() {
+            if (confirm("Are you sure you want to reset the counter? This will not delete your saved history.")) {
+                counter = 0;
+                counterElement.textContent = counter;
+                localStorage.setItem('radhaCounter', counter);
+            }
+        }
+        
+        function clearHistory() {
+            if (history.length === 0) {
+                alert("History is already empty.");
+                return;
+            }
+            
+            if (confirm("Are you sure you want to clear all saved history? This cannot be undone.")) {
+                history = [];
+                saveToStorage();
+                renderHistory();
+            }
+        }
+        
+        function saveToStorage() {
+            localStorage.setItem('radhaCounter', counter);
+            localStorage.setItem('radhaCounterHistory', JSON.stringify(history));
+        }
+        
+        function renderHistory() {
+            historyList.innerHTML = '';
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="history-item" style="text-align: center; justify-content: center;">No saved counts yet</div>';
+                return;
+            }
+            
+            history.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'history-item';
+                li.innerHTML = `
+                    <div>
+                        <div class="history-count">Count: ${item.count}</div>
+                        <div class="history-date">${item.date}</div>
+                        <div style="font-size: 0.8rem; color: #8a2be2; margin-top: 3px;">${item.reason}</div>
+                    </div>
+                    <div class="history-time">${item.time}</div>
+                `;
+                historyList.appendChild(li);
+            });
+        }
+        
+        // Music player functions
+        function renderSongList() {
+            songListElement.innerHTML = '';
+            
+            songs.forEach((song, index) => {
+                const songItem = document.createElement('div');
+                songItem.className = 'song-item';
+                if (index === currentSongIndex) {
+                    songItem.classList.add('active');
+                }
+                
+                songItem.innerHTML = `
+                    <div class="song-cover">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="song-info">
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-artist">${song.artist}</div>
+                    </div>
+                    <div class="song-duration">${song.duration}</div>
+                `;
+                
+                songItem.addEventListener('click', () => {
+                    playSong(index);
+                });
+                
+                songListElement.appendChild(songItem);
+            });
+        }
+        
+        function playSong(index) {
+            if (index < 0 || index >= songs.length) return;
+            
+            currentSongIndex = index;
+            const song = songs[index];
+            
+            // Update current song display
+            currentSongTitle.textContent = song.title;
+            currentSongArtist.textContent = song.artist;
+            
+            // Set audio source
+            audioPlayer.src = song.source;
+            audioPlayer.load();
+            
+            // Update song list active state
+            document.querySelectorAll('.song-item').forEach((item, idx) => {
+                if (idx === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Enable player controls
+            playPauseBtn.disabled = false;
+            stopBtn.disabled = false;
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+            
+            // Play the song
+            audioPlayer.play().then(() => {
+                isPlaying = true;
+                updatePlayPauseButton();
+            }).catch(e => {
+                console.error("Error playing audio:", e);
+                // Show mobile user hint
+                document.querySelector('.mobile-notice').style.display = 'block';
+            });
+        }
+        
+        function updatePlayPauseButton() {
+            const icon = playPauseBtn.querySelector('i');
+            if (isPlaying) {
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+            } else {
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+            }
+        }
+        
+        function togglePlayPause() {
+            if (currentSongIndex === -1) {
+                // If no song selected, play the first one
+                playSong(0);
+                return;
+            }
+            
+            if (isPlaying) {
+                audioPlayer.pause();
+            } else {
+                audioPlayer.play().catch(e => {
+                    console.error("Error playing audio:", e);
+                    document.querySelector('.mobile-notice').style.display = 'block';
+                });
+            }
+            
+            isPlaying = !isPlaying;
+            updatePlayPauseButton();
+        }
+        
+        function stopMusic() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            isPlaying = false;
+            updatePlayPauseButton();
+        }
+        
+        function playNextSong() {
+            let nextIndex = currentSongIndex + 1;
+            if (nextIndex >= songs.length) {
+                nextIndex = 0; // Loop back to first song
+            }
+            playSong(nextIndex);
+        }
+        
+        function playPrevSong() {
+            let prevIndex = currentSongIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = songs.length - 1; // Loop to last song
+            }
+            playSong(prevIndex);
+        }
+        
+        function setupEventListeners() {
+            // Counter event listeners
+            incrementBtn.addEventListener('click', incrementCounter);
+            saveBtn.addEventListener('click', saveCounter);
+            resetBtn.addEventListener('click', resetCounter);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            // Allow keyboard shortcut for increment (spacebar)
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' && !e.target.matches('button, input, textarea')) {
+                    e.preventDefault();
+                    incrementCounter();
+                }
+            });
+            
+            // Music player event listeners
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            stopBtn.addEventListener('click', stopMusic);
+            nextBtn.addEventListener('click', playNextSong);
+            prevBtn.addEventListener('click', playPrevSong);
+            
+            // Volume control
+            volumeSlider.addEventListener('input', () => {
+                audioPlayer.volume = volumeSlider.value / 100;
+            });
+            
+            // Audio player events
+            audioPlayer.addEventListener('play', () => {
+                isPlaying = true;
+                updatePlayPauseButton();
+            });
+            
+            audioPlayer.addEventListener('pause', () => {
+                isPlaying = false;
+                updatePlayPauseButton();
+            });
+            
+            audioPlayer.addEventListener('ended', playNextSong);
+            
+            // Enable audio on user interaction for mobile
+            document.addEventListener('click', function enableAudio() {
+                // This is a workaround for mobile browsers that require user interaction
+                if (audioPlayer.paused && currentSongIndex === -1) {
+                    // Just set volume, don't autoplay
+                    audioPlayer.volume = volumeSlider.value / 100;
+                }
+                document.removeEventListener('click', enableAudio);
+            });
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
