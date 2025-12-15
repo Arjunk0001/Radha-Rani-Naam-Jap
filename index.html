@@ -63,31 +63,29 @@
         }
 
         .main-content {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 30px;
         }
 
         @media (min-width: 992px) {
             .main-content {
-                flex-direction: row;
+                grid-template-columns: 1fr 1fr;
             }
         }
 
-        .counter-section, .music-section {
+        @media (min-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .counter-section, .music-section, .mantra-section {
             background-color: var(--dark-card);
             border-radius: 16px;
             padding: 25px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
-        }
-
-        .counter-section {
-            flex: 1;
-        }
-
-        .music-section {
-            flex: 1;
         }
 
         .section-title {
@@ -103,6 +101,7 @@
             color: var(--primary);
         }
 
+        /* Counter Section Styles */
         .counter-display {
             text-align: center;
             margin: 30px 0;
@@ -255,6 +254,7 @@
             font-size: 0.8rem;
         }
 
+        /* Music Section Styles */
         .song-list {
             max-height: 300px;
             overflow-y: auto;
@@ -421,6 +421,134 @@
             cursor: pointer;
         }
 
+        /* Mantra Section Styles */
+        .mantra-display {
+            padding: 20px;
+            background-color: rgba(138, 43, 226, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--primary);
+            min-height: 120px;
+        }
+
+        .mantra-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--light-text);
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .mantra-sanskrit {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mantra-meaning {
+            font-size: 0.95rem;
+            color: #d8c7ff;
+            margin-top: 10px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .mantra-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .mantra-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        .mantra-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .mantra-list::-webkit-scrollbar-track {
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 10px;
+        }
+
+        .mantra-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .mantra-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .mantra-item:hover {
+            background-color: rgba(138, 43, 226, 0.15);
+            border-color: var(--primary);
+        }
+
+        .mantra-item.active {
+            background-color: rgba(138, 43, 226, 0.2);
+            border-color: var(--primary);
+        }
+
+        .mantra-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .mantra-info {
+            flex: 1;
+        }
+
+        .mantra-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .mantra-length {
+            color: var(--light-text);
+            font-size: 0.85rem;
+        }
+
+        .mantra-status {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 204, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .mantra-timer {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Footer */
         footer {
             text-align: center;
             margin-top: 40px;
@@ -471,7 +599,7 @@
                 font-size: 3.5rem;
             }
             
-            .counter-controls {
+            .counter-controls, .mantra-controls {
                 flex-direction: column;
                 align-items: center;
             }
@@ -502,7 +630,7 @@
                 padding: 15px;
             }
             
-            .counter-section, .music-section {
+            .counter-section, .music-section, .mantra-section {
                 padding: 20px;
             }
             
@@ -601,10 +729,47 @@
                     <i class="fas fa-info-circle"></i> On mobile devices, audio may require user interaction to play. Tap once anywhere on the page to enable audio.
                 </div>
             </section>
+
+            <!-- New Mantra Jap Section -->
+            <section class="mantra-section">
+                <h2 class="section-title"><i class="fas fa-praying-hands"></i> Mantra Jap</h2>
+                
+                <div class="mantra-display">
+                    <div class="mantra-sanskrit" id="currentMantraSanskrit">Select a mantra to begin</div>
+                    <div class="mantra-text" id="currentMantraText">Choose a mantra from the list below to start your meditation practice</div>
+                    <div class="mantra-meaning" id="currentMantraMeaning"></div>
+                </div>
+                
+                <div class="mantra-controls">
+                    <button class="btn btn-primary" id="startMantraBtn">
+                        <i class="fas fa-play"></i> Start Meditation
+                    </button>
+                    <button class="btn btn-reset" id="stopMantraBtn" disabled>
+                        <i class="fas fa-stop"></i> Stop Meditation
+                    </button>
+                </div>
+                
+                <div class="mantra-status" id="mantraStatus">
+                    Status: Ready to begin
+                    <div class="mantra-timer" id="mantraTimer">00:00</div>
+                </div>
+                
+                <h3 class="history-title" style="margin-top: 20px;">
+                    <span><i class="fas fa-book"></i> Select Mantra</span>
+                </h3>
+                
+                <div class="mantra-list" id="mantraList">
+                    <!-- Mantra list will be populated by JavaScript -->
+                </div>
+                
+                <div class="mobile-notice">
+                    <i class="fas fa-info-circle"></i> Background music will play in a loop during meditation
+                </div>
+            </section>
         </div>
         
         <footer>
-            <p>Radha Name Counter &copy; 2023 | Designed for spiritual practice | All music tracks are for devotional purposes</p>
+            <p>Radha Name Counter &copy; 2025 | Designed for spiritual practice | All music tracks are for devotional purposes</p>
         </footer>
         
         <div class="save-notification" id="saveNotification">
@@ -629,6 +794,76 @@
         const audioPlayer = new Audio();
         let currentSongIndex = -1;
         let isPlaying = false;
+        
+        // Mantra functionality
+        const mantraAudio = new Audio();
+        mantraAudio.loop = true;
+        mantraAudio.src = "meditation.mp3"; // Calm meditation music
+        let currentMantraIndex = -1;
+        let isMantraPlaying = false;
+        let mantraStartTime = null;
+        let mantraTimerInterval = null;
+        let mantraDuration = 0;
+        
+        // Mantra playlist
+        const mantras = [
+            {
+                name: "Gayatri Mantra",
+                sanskrit: "ॐ भूर्भुवः स्वः",
+                text: "ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्॥",
+                meaning: "May we attain that excellent glory of Savitar the God: So may he stimulate our prayers.",
+                length: "Short"
+            },
+            {
+                name: "Mahamrityunjaya Mantra",
+                sanskrit: "ॐ त्र्यम्बकं यजामहे",
+                text: "ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान् मृत्योर्मुक्षीय मामृतात्॥",
+                meaning: "We worship the three-eyed Lord Shiva who is fragrant and who nourishes all beings. May He liberate me from death, for the sake of immortality, even as the cucumber is severed from its bondage.",
+                length: "Medium"
+            },
+            {
+                name: "Shanti Mantra",
+                sanskrit: "ॐ सह नाववतु",
+                text: "ॐ सह नाववतु। सह नौ भुनक्तु। सह वीर्यं करवावहै। तेजस्वि नावधीतमस्तु मा विद्विषावहै। ॐ शान्तिः शान्तिः शान्तिः॥",
+                meaning: "May He protect us both together. May He nourish us both together. May we both work together with great energy. May our study be enlightening and fruitful. May we never hate each other. Om peace, peace, peace.",
+                length: "Medium"
+            },
+            {
+                name: "Radha Mantra",
+                sanskrit: "ॐ राधायै नमः",
+                text: "ॐ वृन्दावनीश्वरी श्रीराधिके कृष्णप्रिये नमः॥",
+                meaning: "Om, I bow to Radha, the beloved of Krishna, the goddess of Vrindavan.",
+                length: "Short"
+            },
+            {
+                name: "Krishna Mantra",
+                sanskrit: "ॐ कृष्णाय नमः",
+                text: "ॐ क्लीं कृष्णाय गोविन्दाय गोपीजन वल्लभाय स्वाहा॥",
+                meaning: "Om, I offer to Krishna, the cowherd, the beloved of the gopis.",
+                length: "Short"
+            },
+            {
+                name: "Shiva Mantra",
+                sanskrit: "ॐ नमः शिवाय",
+                text: "ॐ नमः शिवाय गुरवे सच्चिदानन्द मूर्तये। निष्प्रपञ्चाय शान्ताय निरालम्बाय तेजसे॥",
+                meaning: "Om, salutations to Shiva, the guru who is the embodiment of existence, consciousness, and bliss.",
+                length: "Medium"
+            },
+            {
+                name: "Vishnu Mantra",
+                sanskrit: "ॐ नमो भगवते वासुदेवाय",
+                text: "ॐ नमो भगवते वासुदेवाय सर्वकामदाय सर्वपापहराय परमात्मने स्वाहा॥",
+                meaning: "Om, salutations to Lord Vasudeva, the giver of all desires, the remover of all sins, the supreme soul.",
+                length: "Medium"
+            },
+            {
+                name: "Hanuman Mantra",
+                sanskrit: "ॐ हं हनुमते रुद्रात्मकाय हुं फट्",
+                text: "ॐ हं हनुमते नमः। श्रीरामदूताय स्वाहा॥",
+                meaning: "Om, salutations to Hanuman, the messenger of Lord Rama.",
+                length: "Short"
+            }
+        ];
         
         // Song playlist
         const songs = [
@@ -717,10 +952,21 @@
         const nextBtn = document.getElementById('nextBtn');
         const volumeSlider = document.getElementById('volumeSlider');
         
+        // DOM Elements for mantra section
+        const mantraListElement = document.getElementById('mantraList');
+        const currentMantraSanskrit = document.getElementById('currentMantraSanskrit');
+        const currentMantraText = document.getElementById('currentMantraText');
+        const currentMantraMeaning = document.getElementById('currentMantraMeaning');
+        const startMantraBtn = document.getElementById('startMantraBtn');
+        const stopMantraBtn = document.getElementById('stopMantraBtn');
+        const mantraStatus = document.getElementById('mantraStatus');
+        const mantraTimer = document.getElementById('mantraTimer');
+        
         // Initialize the app
         function initApp() {
             loadCounterFromStorage();
             renderSongList();
+            renderMantraList();
             setupEventListeners();
             
             // Set up beforeunload event to save when exiting
@@ -735,6 +981,13 @@
                         audioPlayer.pause();
                         audioPlayer.volume = volumeSlider.value / 100;
                     }).catch(e => console.log("Audio initialization:", e));
+                }
+                if (mantraAudio.paused) {
+                    mantraAudio.volume = 0;
+                    mantraAudio.play().then(() => {
+                        mantraAudio.pause();
+                        mantraAudio.volume = 0.5;
+                    }).catch(e => console.log("Mantra audio initialization:", e));
                 }
             }, {once: true});
         }
@@ -886,6 +1139,138 @@
             });
         }
         
+        // Mantra functions
+        function renderMantraList() {
+            mantraListElement.innerHTML = '';
+            
+            mantras.forEach((mantra, index) => {
+                const mantraItem = document.createElement('div');
+                mantraItem.className = 'mantra-item';
+                if (index === currentMantraIndex) {
+                    mantraItem.classList.add('active');
+                }
+                
+                mantraItem.innerHTML = `
+                    <div class="mantra-icon">
+                        <i class="fas fa-om"></i>
+                    </div>
+                    <div class="mantra-info">
+                        <div class="mantra-name">${mantra.name}</div>
+                        <div class="mantra-length">${mantra.length}</div>
+                    </div>
+                `;
+                
+                mantraItem.addEventListener('click', () => {
+                    selectMantra(index);
+                });
+                
+                mantraListElement.appendChild(mantraItem);
+            });
+        }
+        
+        function selectMantra(index) {
+            if (index < 0 || index >= mantras.length) return;
+            
+            currentMantraIndex = index;
+            const mantra = mantras[index];
+            
+            // Update mantra display
+            currentMantraSanskrit.textContent = mantra.sanskrit;
+            currentMantraText.textContent = mantra.text;
+            currentMantraMeaning.textContent = mantra.meaning;
+            
+            // Update mantra list active state
+            document.querySelectorAll('.mantra-item').forEach((item, idx) => {
+                if (idx === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Enable start button
+            startMantraBtn.disabled = false;
+            
+            // Update status
+            mantraStatus.innerHTML = `Selected: ${mantra.name} <div class="mantra-timer" id="mantraTimer">Ready to start</div>`;
+        }
+        
+        function startMantraMeditation() {
+            if (currentMantraIndex === -1) {
+                alert("Please select a mantra first.");
+                return;
+            }
+            
+            if (isMantraPlaying) {
+                return; // Already playing
+            }
+            
+            // Stop any regular music that's playing
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                updatePlayPauseButton();
+            }
+            
+            // Start mantra meditation
+            isMantraPlaying = true;
+            mantraStartTime = new Date();
+            mantraDuration = 0;
+            
+            // Start background music
+            mantraAudio.play().then(() => {
+                // Update UI
+                startMantraBtn.disabled = true;
+                stopMantraBtn.disabled = false;
+                
+                // Update status
+                mantraStatus.innerHTML = `Meditation in progress: ${mantras[currentMantraIndex].name} <div class="mantra-timer" id="mantraTimer">00:00</div>`;
+                
+                // Start timer
+                mantraTimerInterval = setInterval(updateMantraTimer, 1000);
+            }).catch(e => {
+                console.error("Error playing mantra audio:", e);
+                // Show mobile user hint
+                document.querySelectorAll('.mobile-notice')[1].style.display = 'block';
+            });
+        }
+        
+        function stopMantraMeditation() {
+            if (!isMantraPlaying) return;
+            
+            // Stop background music
+            mantraAudio.pause();
+            mantraAudio.currentTime = 0;
+            
+            // Clear timer
+            if (mantraTimerInterval) {
+                clearInterval(mantraTimerInterval);
+                mantraTimerInterval = null;
+            }
+            
+            // Update state
+            isMantraPlaying = false;
+            startMantraBtn.disabled = false;
+            stopMantraBtn.disabled = true;
+            
+            // Update status
+            const minutes = Math.floor(mantraDuration / 60);
+            const seconds = mantraDuration % 60;
+            mantraStatus.innerHTML = `Meditation completed: ${mantras[currentMantraIndex].name} <div class="mantra-timer" id="mantraTimer">Duration: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}</div>`;
+        }
+        
+        function updateMantraTimer() {
+            if (!mantraStartTime) return;
+            
+            const now = new Date();
+            mantraDuration = Math.floor((now - mantraStartTime) / 1000);
+            
+            const minutes = Math.floor(mantraDuration / 60);
+            const seconds = mantraDuration % 60;
+            
+            mantraTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
         // Music player functions
         function renderSongList() {
             songListElement.innerHTML = '';
@@ -918,6 +1303,11 @@
         
         function playSong(index) {
             if (index < 0 || index >= songs.length) return;
+            
+            // Stop mantra meditation if it's playing
+            if (isMantraPlaying) {
+                stopMantraMeditation();
+            }
             
             currentSongIndex = index;
             const song = songs[index];
@@ -952,7 +1342,7 @@
             }).catch(e => {
                 console.error("Error playing audio:", e);
                 // Show mobile user hint
-                document.querySelector('.mobile-notice').style.display = 'block';
+                document.querySelectorAll('.mobile-notice')[0].style.display = 'block';
             });
         }
         
@@ -979,7 +1369,7 @@
             } else {
                 audioPlayer.play().catch(e => {
                     console.error("Error playing audio:", e);
-                    document.querySelector('.mobile-notice').style.display = 'block';
+                    document.querySelectorAll('.mobile-notice')[0].style.display = 'block';
                 });
             }
             
@@ -1036,6 +1426,10 @@
                 audioPlayer.volume = volumeSlider.value / 100;
             });
             
+            // Mantra event listeners
+            startMantraBtn.addEventListener('click', startMantraMeditation);
+            stopMantraBtn.addEventListener('click', stopMantraMeditation);
+            
             // Audio player events
             audioPlayer.addEventListener('play', () => {
                 isPlaying = true;
@@ -1055,6 +1449,9 @@
                 if (audioPlayer.paused && currentSongIndex === -1) {
                     // Just set volume, don't autoplay
                     audioPlayer.volume = volumeSlider.value / 100;
+                }
+                if (mantraAudio.paused) {
+                    mantraAudio.volume = 0.2;
                 }
                 document.removeEventListener('click', enableAudio);
             });
